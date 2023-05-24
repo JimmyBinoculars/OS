@@ -1,0 +1,6 @@
+55 aa = end of os memory
+[name]: = label for a peice of code
+jmp [label] = jump to a place in memory or go to a label
+loop with:
+    label:
+        jmp label
