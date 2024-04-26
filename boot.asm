@@ -20,4 +20,15 @@ start:
     mov sp, 0x7C00
 
     ;Load kernel
-    
+    mov bx, 0x8000
+    mov dh, 15  ; Number of sectors to load
+    mov dl, 0x80 ; Drive number (0x80 for first hard disk)
+    mov ah, 0x02 ; Read disk sectors function
+    mov al, dh   ; Number of sectors to read
+    mov ch, 0x00 ; Cylinder number
+    mov cl, 0x02 ; Sector number
+    int 0x13     ; BIOS interrupt
+
+    ;Jump to kernel
+    jmp 0x8000
+
