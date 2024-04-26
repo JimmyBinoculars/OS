@@ -32,3 +32,6 @@ start:
     ;Jump to kernel
     jmp 0x8000
 
+;Fill remaning bytes to reach 512
+times 510 - ($ - start) db 0
+dw 0xAA55 ; Boot signature
