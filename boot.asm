@@ -1,4 +1,11 @@
-jmp $
+; Bootloader
 
-times 510-($-$$) db 0
-db 0x55, 0xaa
+;Define origin
+ORG 0x7C00
+
+;Entry point
+start:
+    ;Clear interrupts
+    cli
+
+    ;Setup data segments
