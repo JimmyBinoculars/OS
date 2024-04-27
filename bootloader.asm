@@ -1,22 +1,50 @@
-BITS 16
+; bootloader.asm
 
+; Define the entry point
+    BITS 16
+    ORG 0x7C00
+
+; Main bootloader code
 start:
-    ; Set up segment registers
-    xor ax, ax
-    mov ds, ax
-    mov es, ax
+    ; Disable interrupts
+    cli
 
-    ; Load kernel into memory
-    mov bx, KERNEL_OFFSET    ; Memory address where kernel will be loaded
-    mov ah, 02h              ; BIOS read sector function
-    mov al, 1                ; Read one sector
-    mov ch, 0                ; Cylinder number
-    mov cl, 2                ; Sector number
-    mov dh, 0                ; Head number
-    mov dl, 0                ; Drive number (usually floppy disk or hard disk)
-    int 13h                  ; Call BIOS interrupt for disk I/O
+    ; Load kernel from disk
+    mov ax, 0x0201    ; AH=2 (read sectors), AL=1 (number of sectors to read)
+    mov bx, 0x8000    ; ES:BX = 0x8000:0x0000 (destination address)
+    mov cx, 0x0002    ; Cylinder 0, Sector 2
+    mov dh, 0x00      ; Head 0
+    mov dl, 0x80      ; Drive 0x80 (first floppy drive)
+    int 0x13          ; BIOS interrupt for disk I/O
 
-    ; Jump to the kernel
-    jmp KERNEL_OFFSET:0
+    ; Check for error
+    jc disk_error
 
-KERNEL_OFFSET equ 0x1000    ; Adjust this according to where you want to load the kernel
+    ; Jump to kernel entry point
+    jmp 0x8000:0x0000
+
+; Error handling code
+disk_error:
+    ; Display error message and halt
+    mov si, error_msg
+    call print_string
+    cli
+    hlt
+
+; Print string subroutine
+print_string:
+    lodsb            ; Load next byte from SI into AL
+    cmp al, 0        ; Check for null terminator
+    je print_done    ; If null terminator, return
+    mov ah, 0x0E     ; BIOS teletype function
+    int 0x10         ; Call BIOS interrupt
+    jmp print_string ; Repeat for next character
+print_done:
+    ret
+
+; Data section
+error_msg db "Error loading kernel!", 0
+
+; Padding and boot signature
+times 510-($-$$) db 0
+dw 0xAA55
