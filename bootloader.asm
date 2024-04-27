@@ -9,6 +9,10 @@ start:
     ; Disable interrupts
     cli
 
+    ; Output debug message
+    mov si, debug_msg
+    call print_string
+
     ; Load kernel from disk
     mov ax, 0x0201    ; AH=2 (read sectors), AL=1 (number of sectors to read)
     mov bx, 0x8000    ; ES:BX = 0x8000:0x0000 (destination address)
@@ -44,6 +48,7 @@ print_done:
 
 ; Data section
 error_msg db "Error loading kernel!", 0
+debug_msg db "Booting kernel...", 0
 
 ; Padding and boot signature
 times 510-($-$$) db 0
