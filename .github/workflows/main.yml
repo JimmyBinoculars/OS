@@ -1,0 +1,13 @@
+name: Trunk CLI
+run-name: ${{ github.actor }} is checking the quality of our code.
+on: [push]
+jobs:
+  Run-trunk:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Started job ✅"
+      - run: echo "Triggered by ${{ github.event_name }}"
+      - name: Making trunk executable
+      - run: chmod +x ./trunk
+      - name: Run trunk check
+      - run: ./trunk check
