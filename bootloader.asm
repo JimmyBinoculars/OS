@@ -1,13 +1,22 @@
-; Instruct NASM to generate code that is to be run on CPU that is running in 16 bit mode
 bits 16
 
-; Infinite loop
-loop:
-    jmp loop
+; Define a label X that is a memory offset of the start of our code.
+; It points to a character B.
+x:
+    db "B"
 
-; Fill remaining space of the 512 bytes minus our instrunctions, with 00 bytes
-; $ - address of the current instruction
-; $$ - address of the start of the image .text section we're executing this code in
+; Move offset of x to bx
+mov bx, x
+
+; Add 0x7c00 to bx - it's universally known that BIOS loads bootloaders to this location.
+; add bx, 0x7c00
+
+; Move contents of bx to al
+mov al, [bx]
+
+; Prepare interrupt to print a character in TTY mode and issue the interrupt.
+mov ah, 0x0e
+int 0x10
+
 times 510 - ($-$$) db 0
-; Bootloader magic number
 dw 0xaa55
