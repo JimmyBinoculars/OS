@@ -4,9 +4,6 @@
     BITS 16
     ORG 0x7C00
 
-; Constants
-VIDEO_MEMORY equ 0xB8000
-
 ; Main bootloader code
 start:
     ; Disable interrupts
@@ -26,6 +23,14 @@ start:
 
     ; Check for error
     jc disk_error
+
+    ; Output loading message
+    mov si, loading_msg
+    call print_string
+
+    ; Output kernel message
+    mov si, kernel_msg
+    call print_string
 
     ; Jump to kernel entry point
     jmp 0x8000:0x0000
@@ -49,22 +54,11 @@ print_string:
 print_done:
     ret
 
-; Print video memory subroutine
-print_video_memory:
-    mov si, VIDEO_MEMORY    ; Set SI to point to the start of video memory
-print_video_memory_loop:
-    lodsw                    ; Load next word from SI into AX (character and attribute)
-    cmp al, 0                ; Check for null terminator
-    je print_video_memory_done ; If null terminator, return
-    mov ah, 0x0E             ; BIOS teletype function
-    int 0x10                 ; Call BIOS interrupt to print character
-    jmp print_video_memory_loop ; Repeat for next character
-print_video_memory_done:
-    ret
-
 ; Data section
 error_msg db "Error loading kernel!", 0
 debug_msg db "Booting kernel...", 0
+loading_msg db "Loading kernel...", 0
+kernel_msg db "Hello, kernel!", 0
 
 ; Padding and boot signature
 times 510-($-$$) db 0
