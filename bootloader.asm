@@ -24,7 +24,13 @@ start:
     ; Check for error
     jc disk_error
 
+    ; Set up segment registers to access video memory
+    mov ax, 0xB800     ; Set up ES to point to video memory
+    mov es, ax
+
     ; Jump to kernel entry point
+    mov ax, 0x8000     ; Set up DS to point to kernel segment
+    mov ds, ax
     jmp 0x8000:0x0000
 
 ; Error handling code
