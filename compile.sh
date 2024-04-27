@@ -1,5 +1,7 @@
-# Compile both parts of the bootloader
+# Compile bootloader.asm
 nasm -f bin bootloader.asm -o bootloader.bin
+
+# Compile videoloader.asm
 nasm -f bin videoloader.asm -o videoloader.bin
 
 # Combine both parts into the final bootloader binary
