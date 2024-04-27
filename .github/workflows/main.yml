@@ -10,7 +10,7 @@ jobs:
           echo "Started job ✅"
           echo "Triggered by ${{ github.event_name }}"
       - name: Checkout repo
-        run: actions/checkout@v4
+        uses: actions/checkout@latest
       - name: Download trunk
         run: curl -LO https://trunk.io/releases/trunk
       - name: Making trunk executable
