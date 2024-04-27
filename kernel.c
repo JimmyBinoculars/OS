@@ -2,6 +2,8 @@
 
 #define VIDEO_MEMORY 0xB8000
 
+void write_string(const char* str); // Function declaration
+
 void kernel_main() {
     // Write some text to the screen
     const char* message = "Hello, kernel!";
