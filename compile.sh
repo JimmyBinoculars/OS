@@ -1,8 +1,5 @@
 # Compile bootloader.asm
-nasm -f bin bootloader.asm -o bootloader.bin
-
-# Compile videoloader.asm
-nasm -f bin videoloader.asm -o videoloader.bin
+nasm -f bootloader.asm -o bootloader.bin
 
 # Combine both parts into the final bootloader binary
 cat bootloader.bin videoloader.bin > bootloader_combined.bin
