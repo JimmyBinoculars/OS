@@ -1,8 +1,8 @@
 ; bootloader.asm
 
 ; Define the entry point
-    BITS 16
-    ORG 0x7C00
+BITS 16
+ORG 0x7C00
 
 ; Main bootloader code
 start:
@@ -23,14 +23,6 @@ start:
 
     ; Check for error
     jc disk_error
-
-    ; Output loading message
-    mov si, loading_msg
-    call print_string
-
-    ; Output kernel message
-    mov si, kernel_msg
-    call print_string
 
     ; Jump to kernel entry point
     jmp 0x8000:0x0000
@@ -57,8 +49,6 @@ print_done:
 ; Data section
 error_msg db "Error loading kernel!", 0
 debug_msg db "Booting kernel...", 0
-loading_msg db "Loading kernel...", 0
-kernel_msg db "Hello, kernel!", 0
 
 ; Padding and boot signature
 times 510-($-$$) db 0
