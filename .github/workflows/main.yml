@@ -7,9 +7,9 @@ jobs:
     steps:
       - run: echo "Started job ✅"
       - run: echo "Triggered by ${{ github.event_name }}"
+      - run: cd /
       - run: ls
       - run: pwd
-      - run: cd /OS
       - name: Making trunk executable
         run: chmod +x ./trunk
       - name: Run trunk check
