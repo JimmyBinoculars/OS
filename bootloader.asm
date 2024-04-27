@@ -1,8 +1,8 @@
 ; bootloader.asm
 
 ; Define the entry point
-BITS 16
-ORG 0x7C00
+    BITS 16
+    ORG 0x7C00
 
 ; Main bootloader code
 start:
@@ -24,8 +24,8 @@ start:
     ; Check for error
     jc disk_error
 
-    ; Jump to second part of bootloader
-    jmp read_video_memory
+    ; Jump to kernel entry point
+    jmp 0x8000:0x0000
 
 ; Error handling code
 disk_error:

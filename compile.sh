@@ -1,5 +1,5 @@
 # Compile bootloader.asm
-nasm -f bootloader.asm -o bootloader.bin
+nasm -f bin bootloader.asm -o bootloader.bin
 
 # Compile the kernel
 gcc -ffreestanding -c kernel.c -o kernel.o
