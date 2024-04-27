@@ -13,5 +13,7 @@ jobs:
         run: curl -LO https://trunk.io/releases/trunk
       - name: Making trunk executable
         run: sudo chmod +x ./trunk
+      - name: Initialize trunk
+        run: ./trunk init
       - name: Run trunk check
         run: ./trunk check
