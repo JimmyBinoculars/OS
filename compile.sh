@@ -1,9 +1,6 @@
 # Compile bootloader.asm
 nasm -f bootloader.asm -o bootloader.bin
 
-# Combine both parts into the final bootloader binary
-cat bootloader.bin videoloader.bin > bootloader_combined.bin
-
 # Compile the kernel
 gcc -ffreestanding -c kernel.c -o kernel.o
 ld -o kernel.bin -Ttext 0x1000 --oformat binary kernel.o
