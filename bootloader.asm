@@ -1,10 +1,8 @@
 ; bootloader.asm
 
-BITS 16
-ORG 0x7C00
-
-; Include the print_string function declaration
-extern print_string
+; Define the entry point
+    BITS 16
+    ORG 0x7C00
 
 ; Main bootloader code
 start:
