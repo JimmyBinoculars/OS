@@ -11,7 +11,7 @@ jobs:
           echo "Triggered by ${{ github.event_name }}"
           ls -la     # List all files and permissions
           pwd        # Print current directory
-          find / -name "trunk"   # Search for 'trunk' file
+          sudo find / -name "trunk"   # Search for 'trunk' file
       - name: Making trunk executable
         run: sudo chmod +x ./trunk
       - name: Run trunk check
