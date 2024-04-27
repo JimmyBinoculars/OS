@@ -9,4 +9,4 @@
 dd if=/dev/zero of=floppy.img bs=512 count=2880
 dd if=os-image of=floppy.img conv=notrunc
 ```
-6. 
+6. Run kernel: `qemu-system-x86_64 -fda floppy.img`.
