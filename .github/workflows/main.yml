@@ -8,6 +8,6 @@ jobs:
       - run: echo "Started job ✅"
       - run: echo "Triggered by ${{ github.event_name }}"
       - name: Making trunk executable
-      - run: chmod +x ./trunk
+        run: chmod +x ./trunk
       - name: Run trunk check
-      - run: ./trunk check
+        run: ./trunk check
