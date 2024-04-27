@@ -1,13 +1,26 @@
 ; bootloader.asm
 
 ; Define the entry point
-BITS 16
-ORG 0x7C00
+    BITS 16
+    ORG 0x7C00
 
 ; Main bootloader code
 start:
     ; Disable interrupts
     cli
+
+    ; Set up video mode
+    mov ah, 0x00      ; Set video mode function
+    mov al, 0x03      ; Mode 3 (80x25 text mode)
+    int 0x10          ; Call BIOS interrupt
+
+    ; Clear the screen
+    mov ah, 0x06      ; Scroll up function
+    mov al, 0x00      ; Number of lines to scroll
+    mov bh, 0x07      ; Attribute (white on black)
+    mov cx, 0x0000    ; Upper left corner (row 0, column 0)
+    mov dx, 0x184F    ; Lower right corner (row 24, column 79)
+    int 0x10          ; Call BIOS interrupt
 
     ; Output debug message
     mov si, debug_msg
