@@ -9,6 +9,7 @@ jobs:
       - run: echo "Triggered by ${{ github.event_name }}"
       - name: Running tests
         run: ls
+        run: pwd
       - name: Making trunk executable
         run: chmod +x ./trunk
       - name: Run trunk check
