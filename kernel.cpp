@@ -9,3 +9,4 @@ extern "C" void kernel_main() {
         video_memory[i * 2 + 1] = 0x0F; // White on black
     }
 }
+// TODO: AAA
