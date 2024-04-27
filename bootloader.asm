@@ -1,43 +1,13 @@
-[bits 16]
-[org 0x7c00]
+; Instruct NASM to generate code that is to be run on CPU that is running in 16 bit mode
+bits 16
 
-; where to load the kernel to
-KERNEL_OFFSET equ 0x1000
+; Infinite loop
+loop:
+    jmp loop
 
-; BIOS sets boot drive in 'dl'; store for later use
-mov [BOOT_DRIVE], dl
-
-; setup stack
-mov bp, 0x9000
-mov sp, bp
-
-call load_kernel
-call switch_to_32bit
-
-jmp $
-
-%include "disk.asm"
-%include "gdt.asm"
-%include "switch-to-32bit.asm"
-
-[bits 16]
-load_kernel:
-    mov bx, KERNEL_OFFSET ; bx -> destination
-    mov dh, 2             ; dh -> num sectors
-    mov dl, [BOOT_DRIVE]  ; dl -> disk
-    call disk_load
-    ret
-
-[bits 32]
-BEGIN_32BIT:
-    call KERNEL_OFFSET ; give control to the kernel
-    jmp $ ; loop in case kernel returns
-
-; boot drive variable
-BOOT_DRIVE db 0
-
-; padding
+; Fill remaining space of the 512 bytes minus our instrunctions, with 00 bytes
+; $ - address of the current instruction
+; $$ - address of the start of the image .text section we're executing this code in
 times 510 - ($-$$) db 0
-
-; magic number
+; Bootloader magic number
 dw 0xaa55
