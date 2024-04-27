@@ -6,7 +6,7 @@ void write_string(const char* str); // Function declaration
 
 void kernel_main() {
     // Write some text to the screen
-    const char* message = "Hello, world!";
+    const char* message = "Hello, kernel!";
     write_string(message);
 
     // Enter an infinite loop
