@@ -9,9 +9,8 @@ jobs:
         run: |
           echo "Started job ✅"
           echo "Triggered by ${{ github.event_name }}"
-          ls -la     # List all files and permissions
-          pwd        # Print current directory
-          sudo find / -name "trunk"   # Search for 'trunk' file
+      - name: Download trunk
+        run: curl -LO https://trunk.io/releases/trunk
       - name: Making trunk executable
         run: sudo chmod +x ./trunk
       - name: Run trunk check
