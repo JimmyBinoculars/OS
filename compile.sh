@@ -1,16 +1,18 @@
 #!/bin/bash
 
-# Compile the bootloader assembly code
-nasm -f bin bootloader.asm -o stage1.bin
+# Assemble stage1.asm
+nasm -f bin -o stage1.bin stage1.asm
 
-# Compile the C kernel
-gcc -m32 -ffreestanding -c kernel.c -o kernel.o
+# Assemble stage2.asm
+nasm -f elf32 -o stage2.o stage2.asm
 
-# Link the bootloader and the C kernel
-ld -m elf_i386 -Ttext 0x100000 --oformat binary kernel.o -o kernel.bin
+# Compile kernel.c
+gcc -m32 -ffreestanding -c -o kernel.o kernel.c -fno-pic
 
-# Combine the bootloader and the C kernel
-cat stage1.bin kernel.bin > bootloader.bin
+# Link stage2 and kernel to create kernel.bin
+ld -m elf_i386 -Ttext 0x10000 -o kernel.bin stage2.o kernel.o --oformat binary
 
-# Run the combined binary with QEMU
-qemu-system-x86_64 -drive format=raw,file=bootloader.bin
+# Combine stage1 and kernel.bin to create final image
+cat stage1.bin kernel.bin > os_image.bin
+
+echo "Compilation successful!"
