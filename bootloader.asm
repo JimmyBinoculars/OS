@@ -1,8 +1,10 @@
 ; bootloader.asm
 
-; Define the entry point
-    BITS 16
-    ORG 0x7C00
+BITS 16
+ORG 0x7C00
+
+; Include the print_string function declaration
+extern print_string
 
 ; Main bootloader code
 start:
@@ -24,13 +26,7 @@ start:
     ; Check for error
     jc disk_error
 
-    ; Set up segment registers to access video memory
-    mov ax, 0xB800     ; Set up ES to point to video memory
-    mov es, ax
-
     ; Jump to kernel entry point
-    mov ax, 0x8000     ; Set up DS to point to kernel segment
-    mov ds, ax
     jmp 0x8000:0x0000
 
 ; Error handling code
