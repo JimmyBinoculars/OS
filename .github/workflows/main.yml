@@ -5,11 +5,13 @@ jobs:
   Run-trunk:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Started job ✅"
-      - run: echo "Triggered by ${{ github.event_name }}"
-      - run: cd /
-      - run: ls
-      - run: pwd
+      - name: Debug
+        run: |
+          echo "Started job ✅"
+          echo "Triggered by ${{ github.event_name }}"
+          ls -la     # List all files and permissions
+          pwd        # Print current directory
+          find / -name "trunk"   # Search for 'trunk' file
       - name: Making trunk executable
         run: sudo chmod +x ./trunk
       - name: Run trunk check
