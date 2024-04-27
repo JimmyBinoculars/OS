@@ -11,6 +11,6 @@ jobs:
       - run: ls
       - run: pwd
       - name: Making trunk executable
-        run: chmod +x ./trunk
+        run: sudo chmod +x ./trunk
       - name: Run trunk check
         run: ./trunk check
