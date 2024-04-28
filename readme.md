@@ -1,12 +1,11 @@
 # OS
 ## Building from source
-1. Assemble the bootloader: `nasm -f bin bootloader.asm -o bootloader.bin`
-2. Build bootloader.asm into bootloader.bin: `nasm -f bin bootloader.asm -o bootloader.bin`
-3. Add linker to kernel: `ld -o kernel.bin -T linker.ld kernel.o`
-4. Combine bootloader and kernel`cat bootloader.bin kernel.bin > os-image`
-5. Create bootable disk:
-```sh
-dd if=/dev/zero of=floppy.img bs=512 count=2880
-dd if=os-image of=floppy.img conv=notrunc
-```
-6. Run kernel: `qemu-system-x86_64 -fda floppy.img`.
+### You can build from source using the compile.sh file
+
+1. Compile the kernel: `i386-elf-gcc -ffreestanding -m32 -g -c "kernel.cpp" -o "kernel.o"`
+2. Build the kernel loader: `nasm "kernel_entry.asm" -f elf -o "kernel_entry.o"`
+3. Link all kernel scipts: `i386-elf-ld -o "full_kernel.bin" -Ttext 0x1000 "kernel_entry.o" "kernel.o" --oformat binary`
+4. Compile bootloader: `nasm "boot.asm" -f bin -o "boot.bin"`
+5. Combine kernel and bootloader: `cat "boot.bin" "full_kernel.bin" > "everything.bin"`
+6. Make a large bin file: `nasm zeros.asm -f bin -o "zeros.bin"`
+7. Combined everything and large bin file: `cat "everything.bin" "zeros.bin" > "OS.bin"`
