@@ -1,26 +1,13 @@
 Build environment: Linux-6.5.0-28-generic-x86_64-with-glibc2.35
-Build start time: 11:54:12, Apr.28 2024
+Build start time: 12:01:37, Apr.28 2024
 
-WORKSPACE        = /home/lochlan/Documents/OS
-PACKAGES_PATH    = /home/lochlan/Documents/OS/edk2:/home/lochlan/Documents/OS/edk2-platforms
-EDK_TOOLS_PATH   = /home/lochlan/Documents/OS/edk2/BaseTools
-CONF_PATH        = /home/lochlan/Documents/OS/edk2/Conf
-PYTHON_COMMAND   = /usr/bin/python3
-
-
-Architecture(s)  = AARCH64
-Build target     = DEBUG
-Toolchain        = GCC48
-
-Active Platform          = /home/lochlan/Documents/OS/edk2-platforms/Platform/Intel/Stratix10/Stratix10SoCPkg.dsc
-Flash Image Definition   = /home/lochlan/Documents/OS/edk2-platforms/Platform/Intel/Stratix10/Stratix10SoCPkg.fdf
 
 
 build.py...
- : error 0001: File open failure
-	/home/lochlan/Documents/OS/edk2/MdeModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.uni
+ : error 000E: One Path in PACKAGES_PATH doesn't exist
+	/home/lochlan/Documents/OS/edk2-platforms
 
 - Failed -
-Build end time: 11:54:14, Apr.28 2024
-Build total time: 00:00:02
+Build end time: 12:01:37, Apr.28 2024
+Build total time: 00:00:00
 
