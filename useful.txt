@@ -2,7 +2,7 @@ Cmds:
 
 # Install the required packages for UEFI development (if not already installed)
 
-sudo apt-get install gnu-efi
+sudo apt-get install gnu-efi ovmf
 
 # Compile the code with the correct include path for gnu-efi
 
@@ -11,3 +11,24 @@ gcc -I/usr/include/efi -I/usr/include/efi/x86_64 -fno-stack-protector -fpic -fsh
 # Link the object file to create an EFI executable
 
 ld -nostdlib -znocombreloc -T /usr/lib/elf_x86_64_efi.lds -shared -Bsymbolic -L/usr/lib -o bootloader.efi main.o -lefi -lgnuefi
+
+# Create a 64MB disk image
+dd if=/dev/zero of=boot.img bs=1M count=64
+
+# Format the image as FAT32
+mkfs.vfat boot.img
+
+# Mount the image
+mkdir -p /mnt/boot
+sudo mount boot.img /mnt/boot
+
+# Create the EFI/BOOT directory structure
+sudo mkdir -p /mnt/boot/EFI/BOOT
+
+# Copy your bootloader.efi to the correct location
+sudo cp bootloader.efi /mnt/boot/EFI/BOOT/BOOTX64.EFI
+
+# Unmount the image
+sudo umount /mnt/boot
+
+qemu-system-x86_64 -bios /usr/share/OVMF/OVMF_CODE.fd -drive format=raw,file=boot.img
