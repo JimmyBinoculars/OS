@@ -18,7 +18,7 @@ all: $(OUTPUT) $(IMG)
 
 install-deps:
 	sudo apt-get update
-	sudo apt-get install -y gnu-efi ovmf dosfstools
+	sudo apt-get install -y gnu-efi ovmf dosfstools qemu-system-x86
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -32,14 +32,14 @@ $(BUILD_DIR)/main.o: /workspaces/OS/bootloader/main.c | $(BUILD_DIR)
 $(IMG): | $(BUILD_DIR)
 	dd if=/dev/zero of=$(IMG) bs=1M count=64
 	mkfs.vfat $(IMG)
-	sudo mkdir -p $(MNT_DIR)
+	mkdir -p $(MNT_DIR)
 	sudo mount $(IMG) $(MNT_DIR)
 	sudo mkdir -p $(MNT_DIR)/EFI/BOOT
 	sudo cp $(OUTPUT) $(MNT_DIR)/EFI/BOOT/BOOTX64.EFI
 	sudo umount $(MNT_DIR)
 
 run: all
-	$(QEMU) -bios /usr/share/OVMF/OVMF_CODE.fd -drive format=raw,file=$(IMG)
+	$(QEMU) -bios /usr/share/OVMF/OVMF_CODE.fd -drive format=raw,file=$(IMG) -nographic
 
 clean:
 	rm -rf $(BUILD_DIR)
