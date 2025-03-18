@@ -1,0 +1,13 @@
+Cmds:
+
+# Install the required packages for UEFI development (if not already installed)
+
+sudo apt-get install gnu-efi
+
+# Compile the code with the correct include path for gnu-efi
+
+gcc -I/usr/include/efi -I/usr/include/efi/x86_64 -fno-stack-protector -fpic -fshort-wchar -mno-red-zone -Wall -c -o main.o /workspaces/OS/bootloader/main.c
+
+# Link the object file to create an EFI executable
+
+ld -nostdlib -znocombreloc -T /usr/lib/elf_x86_64_efi.lds -shared -Bsymbolic -L/usr/lib -o bootloader.efi main.o -lefi -lgnuefi
